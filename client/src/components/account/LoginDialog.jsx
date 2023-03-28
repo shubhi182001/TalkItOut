@@ -3,8 +3,8 @@ import React from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { qrCodeImage } from '../../constants/data';
-
-
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 const Component = styled(Box)`
     display: flex;
 `
@@ -49,9 +49,19 @@ const dialogStyle = {
 
 
 const LoginDialog = () => {
+
+    const onLoginSuccess = (res) => {
+        console.log(res.credential);
+        const decoded = jwt_decode(res.credential)
+        console.log(decoded);
+    }
+    const onLoginError = (e) => {
+        console.log(e);
+    }
+
   return (
     <Dialog 
-        open={true}
+        open={true} 
         PaperProps={{sx:dialogStyle}}
     >
         <Component>
@@ -66,8 +76,14 @@ const LoginDialog = () => {
                     <ListItem>4. Point your phone to this screen to capture the QR code</ListItem>
                 </StyledList>
             </Container>
-            <Box>
+            <Box style = {{position:"relative"}}>
                 <QRCode src = {qrCodeImage} alt="QR code" />
+                <Box style = {{position:"absolute", top:"50%", transform:"translateX(25%)"}}>
+                    <GoogleLogin
+                        onSuccess={onLoginSuccess}
+                        onError={onLoginError}
+                    />
+                </Box>
             </Box>
         </Component>
     </Dialog>
