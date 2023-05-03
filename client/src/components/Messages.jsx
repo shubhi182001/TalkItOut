@@ -4,6 +4,10 @@ import LoginDialog from './account/LoginDialog'
 import { AccountContext } from '../context/AccountProvider';
 import ChatDialog from './chat/ChatDialog';
 
+const Header = styled(AppBar)`
+    height: 125px;
+    background: #00bfa5;
+`
 
 const LoginHeader = styled(AppBar)`
     height: 200px;
@@ -21,7 +25,16 @@ const Messages = () => {
   return (
     <Component>
       {
-        account ? <ChatDialog/> : 
+        account ? 
+        <>
+        <Header>
+          <Toolbar>
+            
+          </Toolbar>
+        </Header>
+        <ChatDialog/> 
+        </>
+      : 
       <>
       <LoginHeader>
           <Toolbar>
